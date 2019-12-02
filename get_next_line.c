@@ -6,7 +6,7 @@
 /*   By: nkuipers <nkuipers@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/12/02 10:51:13 by nkuipers       #+#    #+#                */
-/*   Updated: 2019/12/02 15:34:26 by nkuipers      ########   odam.nl         */
+/*   Updated: 2019/12/02 16:02:58 by nkuipers      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ static int	split_line(char **line, char **store, char *temp, int fd)
 	temp = store[fd];
 	store[fd] = ft_strdup(store[fd] + len + 1);
 	free(temp);
+	if (store[fd] == NULL)
+	{
+		free(store[fd]);
+		return (-1);
+	}
 	return (1);
 }
 
@@ -38,7 +43,7 @@ static char	*read_line(int fd, char *store)
 	if (store == NULL)
 		store = ft_strdup("");
 	buf = (char*)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	if (!buf)
+	if (!buf || store == NULL)
 		return (0);
 	while (ft_strchr(store, '\n') == 0)
 	{
